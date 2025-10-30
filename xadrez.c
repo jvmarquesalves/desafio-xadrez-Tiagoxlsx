@@ -1,32 +1,28 @@
-#include <stdio.h>
+-- Criação do banco de dados básico para um jogo de xadrez
 
-// Desafio de Xadrez - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
-// O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
+CREATE TABLE jogadores (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    ranking INTEGER DEFAULT 1000
+);
 
-int main() {
-    // Nível Novato - Movimentação das Peças
-    // Sugestão: Declare variáveis constantes para representar o número de casas que cada peça pode se mover.
+CREATE TABLE partidas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    jogador_brancas_id INTEGER,
+    jogador_pretas_id INTEGER,
+    vencedor_id INTEGER,
+    data_inicio DATETIME DEFAULT CURRENT_TIMESTAMP,
+    data_fim DATETIME,
+    FOREIGN KEY (jogador_brancas_id) REFERENCES jogadores(id),
+    FOREIGN KEY (jogador_pretas_id) REFERENCES jogadores(id),
+    FOREIGN KEY (vencedor_id) REFERENCES jogadores(id)
+);
 
-    // Implementação de Movimentação do Bispo
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação do Bispo em diagonal.
-
-    // Implementação de Movimentação da Torre
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação da Torre para a direita.
-
-    // Implementação de Movimentação da Rainha
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação da Rainha para a esquerda.
-
-    // Nível Aventureiro - Movimentação do Cavalo
-    // Sugestão: Utilize loops aninhados para simular a movimentação do Cavalo em L.
-    // Um loop pode representar a movimentação horizontal e outro vertical.
-
-    // Nível Mestre - Funções Recursivas e Loops Aninhados
-    // Sugestão: Substitua as movimentações das peças por funções recursivas.
-    // Exemplo: Crie uma função recursiva para o movimento do Bispo.
-
-    // Sugestão: Implemente a movimentação do Cavalo utilizando loops com variáveis múltiplas e condições avançadas.
-    // Inclua o uso de continue e break dentro dos loops.
-
-    return 0;
-}
+CREATE TABLE movimentos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    partida_id INTEGER,
+    numero_lance INTEGER,
+    movimento TEXT,
+    tempo DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (partida_id) REFERENCES partidas(id)
+);
